@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<string> splitString(string input, char delimiter);
+vector<int> splitString(string input, char delimiter);
 
 int main() {
 
@@ -15,34 +15,30 @@ int main() {
     int index = 0;
 
     getline(cin, contestants);
-    contestants = stoi(contestants);
+    stoi(contestants);
 
     getline(cin, contestantScores);
-    vector<string> splitted = splitString(contestantScores, ' ');
 
-    int size = splitted.size();
+    vector<int> contestantsTokens = splitString(contestantScores, ' ');
 
-    for(int i = 0; i < size - 1; i++) {
-
-        if(stoi(splitted[i + 1]) > stoi(splitted[i])) {
-
-            if(stoi(splitted[i + 1]) != stoi(splitted[index])) {
-                index = i + 1;
-            }
+    for(int i = 0; i < stoi(contestants) - 1; i++) {
+        
+        if(contestantsTokens[i + 1] > contestantsTokens[index]) {
+            index = i + 1;
         }
     }
 
-    cout << index + 1;
-
+    index++;
+    cout << index << endl;
     return 0;
 }
 
-vector<string> splitString(string input, char delimiter) {
-    vector<string> tokens;
+vector<int> splitString(string input, char delimiter) {
+    vector<int> tokens;
     stringstream check1(input);
     string buf;
     while(getline(check1, buf, delimiter)) {
-        tokens.push_back(buf);
+        tokens.push_back(stoi(buf));
     }
     return tokens;
 }
