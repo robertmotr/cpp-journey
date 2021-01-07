@@ -3,12 +3,57 @@
 
 using namespace std;
 
-int main() {
-    Node* root; // create the root node
-    Node* conductor; // create conductor node, this will point to each node as it traverses the list
-    root = new Node; // root now points to a node struct
-    (*root).next = 0; // same as (*root).next = 0, root points to a node struct, the node root points to has its next pointer set equal to a null pointer meaning end of list
-    (*root).data = 5; // set the value of data in root node to 5
+class list {
 
-    return 0;
+    private:
+    Node *head, *tail;
+
+    public:
+        // constructor 
+        list() {
+            head = NULL;
+            tail = NULL;
+        }
+        // destructor
+        ~list() {
+
+        }
+
+    void append(int value) {
+        Node* temp = new Node;
+        temp -> data = value;
+        temp -> next = NULL;
+
+        if(head == NULL) {
+            head = temp;
+            tail = temp;
+            temp = NULL;
+        }
+        else {
+            tail -> next = temp; 
+            tail = temp;
+        }
+    }
+    void printNodes() {
+        Node* tmp = new Node;
+        tmp = head;
+        while(tmp != NULL) {
+            cout << tmp -> data << endl;
+            tmp = tmp -> next;
+        }
+    }
+    void deleteList() {
+        Node* temp;
+        temp = head;
+        while(temp -> next != NULL) {
+            head = head -> next;
+            delete temp;
+            temp = head;
+        }
+    }
+};
+
+int main() {
+
+
 }
