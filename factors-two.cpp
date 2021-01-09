@@ -1,4 +1,5 @@
 // program to find factors of a number, return it as array
+// made this as a way to test a function in a programming puzzle, then i realized i dont need it
 
 #include <vector>
 #include <iostream>
