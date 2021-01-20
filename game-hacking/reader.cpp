@@ -11,6 +11,7 @@ int main() {
 
     cout << "Enter a process ID." << endl; // get pid from console
     cin >> pid;
+    cout << pid << endl;
 
     // PARAM 1: 
     HANDLE handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
@@ -20,7 +21,7 @@ int main() {
     }
 
     cout << "Enter the address (hex)." << endl;
-    cin >> add;
+    cin >> hex >> add;
 
     BOOL rpmreturn = ReadProcessMemory(handle, LPCVOID(add), &readable, sizeof(int), NULL);
     /*
@@ -31,12 +32,12 @@ int main() {
     PARAM 4: SIZE
     PARAM 5: ???
     */
-    if(rpmreturn == TRUE) {
-        cout << "RPM succeeded." << endl;
-    }
-    else {
+    if(rpmreturn == FALSE) {
         cout << "RPM failed. Displaying last error: " << GetLastError() << endl;
         system("PAUSE");
+    }
+    else {
+        cout << "RPM succeeded." << endl;
     }
 
     cout << "Value of int readable: " << dec << readable << endl;
