@@ -21,7 +21,7 @@ int main() {
         cout << "intptr address: " << hex << &intptr << " intptr value: " << intptr << endl;
         cout << "ptr2ptr address: " << hex << &ptr2ptr << " ptr2ptr value: " << ptr2ptr << endl;
         cout << "ptr2ptr2 address: " << hex << &ptr2ptr2 << " ptr2ptr2 value: " << ptr2ptr2 << endl;
-        cout << "Press SPACE to refresh" << endl;
+        cout << "Press ENTER to refresh" << endl;
         getchar();
     }
     return 0;
