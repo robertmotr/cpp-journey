@@ -2,9 +2,6 @@
 #include <Windows.h>
 #include <iostream>
 
-// following a tutorial on forum thread unknowncheats.me as an introduction to game hacking/reverse engineering
-// hopefully this will build up my knowledge of how things work at a lower-level
-
 using namespace std;
 
 int main() {
@@ -15,7 +12,16 @@ int main() {
     int* intptr = &varInt;
     int** ptr2ptr = &intptr;
     int*** ptr2ptr2 = &ptr2ptr;
-
-    cout << "Process ID: " << GetCurrentProcessId() << endl;
+    while(true) {
+        system("CLS");
+        cout << "Process ID: " << GetCurrentProcessId() << endl;
+        cout << "varInt address: " << &varInt << " varInt value: " << varInt << endl;
+        cout << "arrChar address: " << &arrChar << " arrChar value: " << arrChar << endl;
+        cout << "intptr address: " << &intptr << " intptr value: " << intptr << endl;
+        cout << "ptr2ptr address: " << &ptr2ptr << " ptr2ptr value: " << ptr2ptr << endl;
+        cout << "ptr2ptr2 address: " << &ptr2ptr2 << " ptr2ptr2 value: " << ptr2ptr2 << endl;
+        cout << "Press SPACE to refresh" << endl;
+        getchar();
+    }
     return 0;
 }
