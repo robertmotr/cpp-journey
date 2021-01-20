@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
     DWORD pid;
-    uintptr_t add;
+    uintptr_t add = 0x0;
     int readable = 0; // buffer to receive contents from
 
     cout << "Enter a process ID." << endl; // get pid from console
