@@ -39,6 +39,7 @@ int main() {
     }
     else {
         cout << "WPM succeeded." << endl;
+        system("PAUSE");
     }
     return 0;
 }
