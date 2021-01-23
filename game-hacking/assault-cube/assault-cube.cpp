@@ -17,7 +17,7 @@ DWORD GetProcId(string procname){
 	DWORD procid;
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if(hSnap == INVALID_HANDLE_VALUE) {
-		displayError("trying to get snapshot");
+		displayError("trying to get snapshot on GetProcId");
 	}
 	else {
 		// https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/ns-tlhelp32-processentry32
@@ -43,7 +43,7 @@ uintptr_t GetModuleBaseAddress(DWORD procId, string modulename){
 	uintptr_t modBaseAddr;
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, procId);
 	if(hSnap == INVALID_HANDLE_VALUE) {
-		displayError("trying to get snapshot");
+		displayError("trying to get snapshot for GetModuleBaseAddress");
 	}
 	else {
 		MODULEENTRY32 me;
@@ -62,7 +62,9 @@ uintptr_t GetModuleBaseAddress(DWORD procId, string modulename){
 	return modBaseAddr;
 }
 
+// openprocess handle, baseptr, offsets
 uintptr_t findAddress(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> offsets){
+	
 	uintptr_t addr = ptr;
 	for (unsigned int i = 0; i < offsets.size(); ++i)
 	{
@@ -70,4 +72,20 @@ uintptr_t findAddress(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> off
 		addr += offsets[i];
 	}
 	return addr;
+}
+
+int main() {
+	DWORD pid;
+	string procname = "ac_client.exe";
+	uintptr_t modbase;
+	pid = GetProcId(procname);
+
+	HANDLE opHandle = OpenProcess(PROCESS_ALL_ACCESS, NULL, pid);
+
+	
+
+
+
+
+	return 0;
 }
