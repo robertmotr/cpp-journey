@@ -12,11 +12,11 @@ void displayError(string typefailure) {
 	system("PAUSE");
 }
 
-DWORD GetProcId(string procname){
+DWORD GetProcId(const wchar_t* procname){
     // https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot
 	DWORD procid;
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if(hSnap == INVALID_HANDLE_VALUE) {
+    if(hSnap == NULL) {
 		displayError("trying to get snapshot on GetProcId");
 	}
 	else {
@@ -24,14 +24,9 @@ DWORD GetProcId(string procname){
 		PROCESSENTRY32 pe32;
 		pe32.dwSize = sizeof(pe32); // microsoft wants us to declare size of this struct in dwSize variable
 		// using tlh32 snapshot, if this returns true that means a process existed during that snapshot taken earlier
-		if(Process32First(hSnap, &pe32) == TRUE) {
+		if(Process32First(hSnap, &pe32)) {
 			while(Process32Next(hSnap, &pe32)) {
-				// convert this crappy ms wchar_t* type to c++ string 
-				// use this link: https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-160
-				if(string(wstring(pe32.szExeFile).begin(), wstring(pe32.szExeFile).end()) == procname) {
-					procid = pe32.th32ProcessID;
-					break;
-				}
+				// TODO
 			}
 		}
 	}
@@ -50,10 +45,9 @@ uintptr_t GetModuleBaseAddress(DWORD procId, string modulename){
 		me.dwSize = sizeof(me);
 		if(Module32First(hSnap, &me)) {
 			while(Module32Next(hSnap, &me)) {
-				// convert this crappy ms wchar_t* type to c++ string 
-				// use this link: https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-160
-				if(string(wstring(me.szModule).begin(), wstring(me.szModule).end()) == modulename) {
-				modBaseAddr = (uintptr_t)me.modBaseAddr; // me.modBaseAddr returns BYTE pointer, cast to unsigned int pointer
+				// TODO
+				if(str == modulename) {
+					modBaseAddr = (uintptr_t)me.modBaseAddr; // me.modBaseAddr returns BYTE pointer, cast to unsigned int pointer
 				}
 			}
 		}
@@ -75,17 +69,33 @@ uintptr_t findAddress(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> off
 }
 
 int main() {
+
+	int ammo;
+
+	cout << "Enter an ammo value:" << endl; 
+	cin >> ammo;
 	DWORD pid;
 	string procname = "ac_client.exe";
 	uintptr_t modbase;
 	pid = GetProcId(procname);
 
-	HANDLE opHandle = OpenProcess(PROCESS_ALL_ACCESS, NULL, pid);
-
-	
-
-
-
+	HANDLE opHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+	if(opHandle == NULL) {
+		displayError("trying to get OpenProcess handle");
+	}
+	else {
+		vector<unsigned int> offsets = {150};
+		uintptr_t base = GetModuleBaseAddress(pid, "ac_client.exe");
+		uintptr_t finaladd = findAddress(opHandle, base, offsets);
+		
+		BOOL wpmreturn = WriteProcessMemory(opHandle, (LPVOID)finaladd, &ammo, sizeof(int), NULL); 
+		if(wpmreturn == TRUE) {
+			cout << "Changed ammo value." << endl;
+		}
+		else {
+			displayError("trying to WPM to ammo.");
+		}
+	}
 
 	return 0;
 }
