@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <tlhelp32.h>
 #include <string>
+#include <wchar.h>
 
 using namespace std;
 
@@ -12,7 +13,7 @@ void displayError(string typefailure) {
 	system("PAUSE");
 }
 
-DWORD GetProcId(const wchar_t* procname){
+DWORD GetProcId(char* procname){
     // https://docs.microsoft.com/en-us/windows/win32/api/tlhelp32/nf-tlhelp32-createtoolhelp32snapshot
 	DWORD procid;
 	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -24,36 +25,40 @@ DWORD GetProcId(const wchar_t* procname){
 		PROCESSENTRY32 pe32;
 		pe32.dwSize = sizeof(pe32); // microsoft wants us to declare size of this struct in dwSize variable
 		// using tlh32 snapshot, if this returns true that means a process existed during that snapshot taken earlier
-		if(Process32First(hSnap, &pe32)) {
-			while(Process32Next(hSnap, &pe32)) {
-				// TODO
+		do {
+			if(strcmp(procname, (char*)pe32.szExeFile) == 0) {
+				procid = pe32.th32ProcessID;
+				break;
 			}
 		}
+		while (Process32Next(hSnap, &pe32));
 	}
 	CloseHandle(hSnap);
 	return procid;
 }
 
-uintptr_t GetModuleBaseAddress(DWORD procId, string modulename){
-	uintptr_t modBaseAddr;
-	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, procId);
-	if(hSnap == INVALID_HANDLE_VALUE) {
-		displayError("trying to get snapshot for GetModuleBaseAddress");
+uintptr_t GetModuleBaseAddress(DWORD procid, char* modName)
+{
+	uintptr_t modbaseaddr;
+	HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, procid);
+	if(hSnap == NULL) {
+		displayError("trying to get snapshot on GetModBaseAddr");
 	}
 	else {
 		MODULEENTRY32 me;
-		me.dwSize = sizeof(me);
+		me.dwSize = sizeof(MODULEENTRY32);
 		if(Module32First(hSnap, &me)) {
-			while(Module32Next(hSnap, &me)) {
-				// TODO
-				if(str == modulename) {
-					modBaseAddr = (uintptr_t)me.modBaseAddr; // me.modBaseAddr returns BYTE pointer, cast to unsigned int pointer
+			do {
+				if(strcmp((char*)me.szModule, modName) == 0) {
+					modbaseaddr = (uintptr_t) me.modBaseAddr;
+					break;
 				}
 			}
+			while (Module32Next(hSnap, &me));
 		}
 	}
 	CloseHandle(hSnap);
-	return modBaseAddr;
+	return modbaseaddr;
 }
 
 // openprocess handle, baseptr, offsets
@@ -70,30 +75,31 @@ uintptr_t findAddress(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> off
 
 int main() {
 
-	int ammo;
+	int ammo = 500;
 
-	cout << "Enter an ammo value:" << endl; 
-	cin >> ammo;
-	DWORD pid;
-	string procname = "ac_client.exe";
-	uintptr_t modbase;
-	pid = GetProcId(procname);
-
+	DWORD pid = GetProcId("ac_client.exe");
 	HANDLE opHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+
 	if(opHandle == NULL) {
 		displayError("trying to get OpenProcess handle");
 	}
 	else {
-		vector<unsigned int> offsets = {150};
-		uintptr_t base = GetModuleBaseAddress(pid, "ac_client.exe");
-		uintptr_t finaladd = findAddress(opHandle, base, offsets);
-		
-		BOOL wpmreturn = WriteProcessMemory(opHandle, (LPVOID)finaladd, &ammo, sizeof(int), NULL); 
-		if(wpmreturn == TRUE) {
-			cout << "Changed ammo value." << endl;
+
+		vector<unsigned int> offsets = {0x150};
+
+		uintptr_t baseaddr = GetModuleBaseAddress(pid, "ac_client.exe");
+
+		baseaddr = baseaddr + 0x10f4f4;
+
+		uintptr_t ammoaddress = findAddress(opHandle, baseaddr, offsets);
+
+		BOOL wpmreturn = WriteProcessMemory(opHandle, (LPVOID)ammoaddress, &ammo, sizeof(ammo), NULL);
+		if(wpmreturn == FALSE) {
+			displayError("to WPM onto ammo address");
 		}
 		else {
-			displayError("trying to WPM to ammo.");
+			cout << "Successfully overwritten ammo address." << endl;
+			system("PAUSE");
 		}
 	}
 
