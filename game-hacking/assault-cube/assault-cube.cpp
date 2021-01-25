@@ -99,7 +99,7 @@ int main() {
 		}
 		else {
 			cout << "Successfully overwritten ammo address." << endl;
-			system("PAUSE");
+			system("pause");
 		}
 	}
 
