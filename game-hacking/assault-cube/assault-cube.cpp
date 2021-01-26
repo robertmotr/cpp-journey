@@ -76,6 +76,7 @@ uintptr_t findAddress(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> off
 int main() {
 
 	int ammo = 500;
+	int health = 600;
 
 	DWORD pid = GetProcId("ac_client.exe");
 	HANDLE opHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
@@ -85,13 +86,15 @@ int main() {
 	}
 	else {
 
-		vector<unsigned int> offsets = {0x150};
+		vector<unsigned int> offsetsammo = {0x150};
+		vector<unsigned int> offsetshealth = {0xF8};
 
 		uintptr_t baseaddr = GetModuleBaseAddress(pid, "ac_client.exe");
 
 		baseaddr = baseaddr + 0x10f4f4;
+		uintptr_t healthadd = baseaddr + 0xF8;
 
-		uintptr_t ammoaddress = findAddress(opHandle, baseaddr, offsets);
+		uintptr_t ammoaddress = findAddress(opHandle, baseaddr, offsetsammo);
 
 		BOOL wpmreturn = WriteProcessMemory(opHandle, (LPVOID)ammoaddress, &ammo, sizeof(ammo), NULL);
 		if(wpmreturn == FALSE) {
@@ -99,6 +102,14 @@ int main() {
 		}
 		else {
 			cout << "Successfully overwritten ammo address." << endl;
+			system("pause");
+		}
+		BOOL hwpm = WriteProcessMemory(opHandle, (LPVOID)healthadd, &health, sizeof(health), NULL);
+		if(hwpm == FALSE) {
+			displayError("to WPM onto health address");
+		}
+		else {
+			cout << "Sucessfully overwritten health address." << endl;
 			system("pause");
 		}
 	}
