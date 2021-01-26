@@ -92,9 +92,9 @@ int main() {
 		uintptr_t baseaddr = GetModuleBaseAddress(pid, "ac_client.exe");
 
 		baseaddr = baseaddr + 0x10f4f4;
-		uintptr_t healthadd = baseaddr + 0xF8;
 
 		uintptr_t ammoaddress = findAddress(opHandle, baseaddr, offsetsammo);
+		uintptr_t healthaddress = findAddress(opHandle, baseaddr, offsetshealth);
 
 		BOOL wpmreturn = WriteProcessMemory(opHandle, (LPVOID)ammoaddress, &ammo, sizeof(ammo), NULL);
 		if(wpmreturn == FALSE) {
@@ -103,7 +103,7 @@ int main() {
 		else {
 			cout << "Successfully overwritten ammo address." << endl;
 		}
-		BOOL hwpm = WriteProcessMemory(opHandle, (LPVOID)healthadd, &health, sizeof(health), NULL);
+		BOOL hwpm = WriteProcessMemory(opHandle, (LPVOID)healthaddress, &health, sizeof(health), NULL);
 		if(hwpm == FALSE) {
 			displayError("to WPM onto health address");
 		}
