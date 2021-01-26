@@ -102,7 +102,6 @@ int main() {
 		}
 		else {
 			cout << "Successfully overwritten ammo address." << endl;
-			system("pause");
 		}
 		BOOL hwpm = WriteProcessMemory(opHandle, (LPVOID)healthadd, &health, sizeof(health), NULL);
 		if(hwpm == FALSE) {
