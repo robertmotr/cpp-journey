@@ -14,7 +14,7 @@ int main()
 								{4, 8, 6}, 
 								{7, 2, 9}}; 
 
-	// Number of rows; 
+	// rows; 
 	int m = vect.size(); 
     // cols
 	int n = vect[0].size(); 
@@ -26,7 +26,7 @@ int main()
 		cout << endl; 
 	}							 
 
-	sort(vect.begin(), vect.end(),sortcol); 
+	sort(vect.begin(), vect.end(), sortcol); 
 	cout << "The Matrix after sorting is:\n"; 
 	for (int i=0; i<m; i++) 
 	{ 
