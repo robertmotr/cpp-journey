@@ -26,4 +26,8 @@ int main() {
     cout << "" << endl;
     }
     return 0;
+
+    vector<vector<int>>::iterator it = lower_bound(vec.begin(), vec.end(), 6, complowf);
+
+    cout << &it << endl;
 }
