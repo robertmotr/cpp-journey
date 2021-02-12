@@ -10,6 +10,10 @@ bool compsortf(const vector<int>& a, const vector<int>& b) {
     return a[0] < b[0];
 }
 
+bool complowf(const vector<int>& a, int val) {
+    return a[0] < val;
+}
+
 int main() {
     vector<vector<int>> vec = {{0, 6, 9}, {2, 3, 5}, {1, 4, 8}, {6, 8, 3}, {4, 2 ,1}, {9, 9, 9}};
     sort(vec.begin(), vec.end(), compsortf);
