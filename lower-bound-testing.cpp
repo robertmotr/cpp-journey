@@ -6,11 +6,7 @@
 
 using namespace std;
 
-bool compsortf(const vector<int> a, const vector<int>& b) {
-    return a[0] < b[0];
-}
-
-bool complowerf(const vector<int>& a, const vector<int>& b) {
+bool compsortf(const vector<int>& a, const vector<int>& b) {
     return a[0] < b[0];
 }
 
