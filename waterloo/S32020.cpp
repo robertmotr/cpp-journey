@@ -14,18 +14,16 @@ int main() {
 
     set<string> set;
     map<char, int> needlemap;
+    map<char, int> haystackmap;
     bool b = true;
-
-    cout << needlemap['a'] << endl;
 
     for(int k = 0; k < needle.size(); k++) {
         needlemap[needle[k]] += 1;
     }
-    for(int i = 0; i < haystack.size() - needle.size();) {
-        map<char, int> haystackmap;
+    for(int i = 0; i <= haystack.size() - needle.size();) {
         int j = i;
         string ln = "";
-        if(b) {
+        if(b == true) {
             for(int m = i; m < needle.size() + i; m++) {
                 ln += haystack[m];
                 haystackmap[haystack[m]] += 1;
