@@ -6,21 +6,25 @@ using namespace std;
 
 vector<int> splitString(string in) {
     vector<int> tokens;
+    string add;
     for(int i = 0; i < in.size(); i++) {
-        if(in[i] == ' ') {
-            string k = in.substr(0, i);
-            tokens.push_back(stoi(k));
-            in.erase(0, i + 1);
+        if(in[i] != ' ') {
+            add += in[i];
+        }
+        else {
+            tokens.push_back(stoi(add));
+            add.clear();
         }
     }
-    tokens.push_back(stoi(in));
+    tokens.push_back(stoi(add));
     return tokens;
 }
 
 int main() {
+
     string m;
     getline(cin, m);
     vector<int> tokens = splitString(m);
-    cout << tokens.size() << endl;
     return 0;
+
 }
