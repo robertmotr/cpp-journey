@@ -22,23 +22,23 @@ vector<int> splitString(string in) {
 }
 
 int main() {
-    string in;
+    string in = "";
     getline(cin, in);
     int cases = stoi(in);
 
     for(int i = 0; i < cases; i++) {
         getline(cin, in);
         int n = stoi(in);
+        vector<vector<int>> vec;
 
-        vector<set<int>> cols;
-        vector<set<int>> rows;
+        vector<set<int>> cols(n);
+        vector<set<int>> rows(n);
 
         int rownum = 0;
         int colnum = 0;
         int trace = 0;
 
         // get matrix input
-        vector<vector<int>> vec;
         for(int m = 0; m < n; m++) {
             getline(cin, in);
             vec.push_back(splitString(in));
@@ -67,7 +67,9 @@ int main() {
         }
         cols.clear();
         rows.clear();
-        cout << "Case #" << i + ": " + trace + ' ' + rownum + ' ' + colnum << endl;
+        vec.clear();
+        string z = string("Case #") + to_string(i + 1) + ": " + to_string(trace) + ' ' + to_string(rownum) + ' ' + to_string(colnum);
+        cout << z << endl;
     }
     return 0;
 }
