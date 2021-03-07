@@ -5,23 +5,18 @@
 using namespace std;
 
 vector<string> splitString(string in) {
-    vector<string> tokens;
-    string add;
-    for(int i = 0; i < in.size(); i++) {
-        if(in[i] != ' ') {
-            add += in[i];
-        }
-        else {
-            tokens.push_back(add);
-            add.clear();
-        }
-    }
-    tokens.push_back(add);
+    vector<string> tokens(2);
+    tokens[0] = in[0];
+    tokens[1] = in.substr(2, string::npos);
     return tokens;
 }
 
 
 int main() {
+    ios_base::sync_with_stdio(false); 
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+
     string in;
     getline(cin, in);
     int m = stoi(in);
@@ -41,7 +36,7 @@ int main() {
         canvas.push_back(vec);
     }
 
-    int black = m * n;
+    int gold = 0;
 
     for(int i = 0 ; i < k; i++) {
         getline(cin, in);
@@ -49,11 +44,35 @@ int main() {
         char rc = toks[0][0];
 
         int id = stoi(toks[1]);
+        id--;
 
         if(rc == 'R') {
-            
+            // row
+            for(int x = 0; x < n; x++) {
+                bool now = canvas[id][x];
+                canvas[id][x] = !now;
+                if(now == false) {
+                    gold++;
+                }
+                else {
+                    gold--;
+                }
+            }
+        }
+        else {
+            // col
+            for(int x = 0; x < m; x++) {
+                bool now = canvas[x][id];
+                canvas[x][id] = !now;
+                if(now == false) {
+                    gold++;
+                }
+                else {
+                    gold--;
+                }
+            }
         }
     }
-
+    cout << gold << endl;
     return 0;
 }
