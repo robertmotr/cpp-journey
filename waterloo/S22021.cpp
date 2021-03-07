@@ -22,10 +22,38 @@ vector<string> splitString(string in) {
 
 
 int main() {
+    string in;
+    getline(cin, in);
+    int m = stoi(in);
 
-    vector<string> tok = splitString("R 3");
-    for(auto i : tok) {
-        cout << i << endl;
+    getline(cin, in);
+    int n = stoi(in);
+
+    getline(cin, in);
+    int k = stoi(in);
+
+    vector<vector<bool>> canvas;
+    for(int l = 0; l < m; l++) {
+        vector<bool> vec = {};
+        for(int b = 0; b < n; b++) {
+            vec.push_back(false);
+        }
+        canvas.push_back(vec);
     }
+
+    int black = m * n;
+
+    for(int i = 0 ; i < k; i++) {
+        getline(cin, in);
+        vector<string> toks = splitString(in);
+        char rc = toks[0][0];
+
+        int id = stoi(toks[1]);
+
+        if(rc == 'R') {
+            
+        }
+    }
+
     return 0;
 }
