@@ -23,8 +23,8 @@ int diagonalDifference(vector<vector<int>> arr) {
     for(int i = 0; i < arr.size(); i++) {
         sa += arr[i][i];
     }
-    for(int i = arr.size() - 1; i > 0; i--) {
-        sb += arr[i][i];
+    for(int i = 0; i < arr.size(); i++) {
+        sb += arr[i][arr.size() - 1 - i];
     }
     return abs(sb - sa);
 }
