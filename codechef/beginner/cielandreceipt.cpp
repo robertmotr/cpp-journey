@@ -39,7 +39,8 @@ int main() {
     for(int i = 0; i < t; i++) {
         int p;
         cin >> p;
-        cout << computeMenus(p, 0) << "\n";
+        int f = computeMenus(p, 0);
+        cout << f << "\n";
     }   
     return 0;
 }
