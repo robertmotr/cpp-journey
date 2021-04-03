@@ -1,46 +1,25 @@
 #include <iostream>
-#include <math.h>
 
 using namespace std;
 
-int compute[12] = {};
-
-int computeMenus(int p, int counter) {
-    int x = p - compute[0];
-    for(int k = 1; k < 12; k++) {
-        int l = p - compute[k];
-        if(l >= 0) {
-            x = l;
-        }
-        else {
-            break;
-        }
-    }
-    counter++;
-    int a = p - x;
-    if(a == 0) {
-        return counter;
-    }
-    else {
-        return computeMenus(a, counter);
-    }
-}
-
 int main() {
-    
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
+    int compute[12] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048};
     int t;
     cin >> t;
-    for(int i = 0; i < 12; i++) {
-        compute[i] = pow(2, i);
-    }
-    for(int i = 0; i < t; i++) {
+    for(int k = 0; k < t; k++) {
         int p;
         cin >> p;
-        int f = computeMenus(p, 0);
-        cout << f << "\n";
-    }   
+        int counter = 0;
+        for(int i = 11; i >= 0; i--) {
+            if(p >= compute[i]) {
+                p -= compute[i];
+                counter += 1;
+                break;
+        }
+    }
+    }
     return 0;
 }
