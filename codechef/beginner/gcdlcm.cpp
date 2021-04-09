@@ -1,6 +1,29 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
+
+int gcd(int a, int b)
+{
+    if (a == 0) {
+       return b;
+    }
+    if (b == 0) {
+       return a;   
+    }  
+    if (a == b) {
+        return a;
+    }
+    if (a > b) {
+        return gcd(a-b, b);
+    }
+        
+    return gcd(a, b-a);
+}
+
+int lcm(int a, int b) {
+    return (a / gcd(a, b)) * b;
+}
 
 int main()
 {
@@ -14,18 +37,9 @@ int main()
     {
         int a, b;
         cin >> a >> b;
-        int lcm = 1;
-        for(int k = 1; k < min(a, b); k++) {
-            if(a % k == 0 && b % k == 0) {
-                if(k > lcm) {
-                    lcm = k;
-                }
-            }
-        }
-
-        
-
-
+        int gcdn = gcd(a, b);
+        int lcmn = lcm(a, b);
+        cout << to_string(gcd(a, b)) + " " + to_string(lcmn) << "\n";
     }
 
     return 0;
