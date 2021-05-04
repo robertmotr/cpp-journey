@@ -1,5 +1,9 @@
 // tried my hand out at making a linked list by myself
 
+#include <iostream>
+
+using namespace std;
+
 struct node {
 
     node* next;
@@ -25,10 +29,17 @@ class list {
                 while(t != nullptr) {
                     t = t -> next;
                 }
-                node* p;
-                p = new node;
+                node* p = new node;
                 p -> value = val;
                 t = p;
+            }
+        }
+
+        void printNodes() {
+            node* t = &head;
+            while(t -> next != nullptr) {
+                cout << t -> value << endl;
+                t = t -> next;
             }
         }
 
