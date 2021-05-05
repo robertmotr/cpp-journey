@@ -1,4 +1,4 @@
-// tried my hand out at making a linked list by myself
+// tried making a linked list by myself
 
 #include <iostream>
 
@@ -12,37 +12,53 @@ struct node {
 };
 
 class list {
-
     public:
+        node* head = NULL;
+        node* tail = NULL;
 
-        node head;
+        list(int val) {
+            head = new node;
+            head -> value = val;
+            head -> next = NULL;
+            tail = head;
+        }
+
+        ~list() {
+            deleteList();
+        }
 
         void append(int val) {
-            node* t = head.next;
-            if(t == nullptr) {
-                node* p;
-                p = new node;
-                p -> value = val;
-                head.next = p;
+            if(head -> next == NULL) {
+                head -> next = new node;
+                head -> next -> value = val;
+                head -> next -> next = NULL;
+                tail = head -> next;
             }
             else {
-                while(t != nullptr) {
-                    t = t -> next;
-                }
-                node* p = new node;
-                p -> value = val;
-                t = p;
+                tail -> next = new node;
+                tail = tail -> next;
+                tail -> value = val;
+                tail -> next = NULL;
             }
         }
 
-        void printNodes() {
-            node* t = &head;
-            while(t -> next != nullptr) {
+        void deleteList() {}
+
+        void printList() {
+            node* t;
+            t = head;
+            while(t != NULL) {
                 cout << t -> value << endl;
                 t = t -> next;
             }
         }
+};
 
-        void pop() {
-        }
-}; 
+int main() {
+
+    list list(5);
+    list.append(6);
+    list.append(7);
+    list.printList();
+    return 0;
+}
