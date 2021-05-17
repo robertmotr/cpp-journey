@@ -39,10 +39,3 @@ class bTree {
             root = new node<T>();
         }
 };
-
-int main() {
-
-    bTree<int> tree(7);
-
-    return 0;
-}
