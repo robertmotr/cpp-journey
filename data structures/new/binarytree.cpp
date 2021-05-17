@@ -29,10 +29,15 @@ struct node {
 template<typename T>
 class bTree {
     public:
-
         node<T>* root;
 
-        bTree() {}
+        bTree(T value) {
+            root = new node<T>(value);
+        }
+
+        bTree() {
+            root = new node<T>();
+        }
 
         search() {}
 
@@ -47,13 +52,7 @@ class bTree {
 
 int main() {
 
-    node<int>* root = new node<int>(5);
-    root -> left = new node<int>(7);
-    root -> left -> left = new node<int>(9);
-
-    cout << root -> data << endl; 
-    cout << root -> left -> data << endl;
-    cout << root -> left -> left -> data << endl;
+    bTree<int> tree(7);
 
     return 0;
 }
