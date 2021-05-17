@@ -38,16 +38,6 @@ class bTree {
         bTree() {
             root = new node<T>();
         }
-
-        search() {}
-
-        insert() {}
-
-        remove() {}
-
-        change() {}
-
-        ~bTree() {}
 };
 
 int main() {
