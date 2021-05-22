@@ -1,13 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
 int main() {
     fstream fs;
     fs.open("textfile.txt");
-
-    fs << "Just writing to a file. Nothing to see here.\n";
+    string line;
+    getline(fs, line);
+    cout << line << endl;
     fs.close();
 
     return 0;
