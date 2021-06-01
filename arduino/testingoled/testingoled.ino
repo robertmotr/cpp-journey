@@ -19,9 +19,9 @@ void setup() {
   display.display();
   display.clearDisplay();
 
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
-  display.setCursor(10, 0);
+  display.setCursor(0, 0);
   display.println(F("Hello world!"));
   display.display();
 }
