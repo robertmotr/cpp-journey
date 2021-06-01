@@ -8,18 +8,20 @@
 
 #define RESET 4
 
-SoftwareSerial mySerial(2,3);
+SoftwareSerial mySerial(2, 3);
 Adafruit_SSD1306 display(WIDTH, HEIGHT, &Wire, RESET);
-int ledpin=13;
+int ledpin = 13;
 void setup()
 {
   Wire.begin();
   mySerial.begin(9600);
   Serial.begin(9600);
   pinMode(ledpin, OUTPUT);
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // 0x3C or 0x3D
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
+  { // 0x3C or 0x3D
     Serial.println("SSD1306 allocation failed");
-    while(true) {}
+    while (true) {
+    }
   }
   display.display();
   display.clearDisplay();
@@ -28,22 +30,14 @@ void setup()
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0, 0);
   display.println("Hello world");
+  display.setCursor(0, 30);
+  display.println("Line 2 of hello world");
   display.display();
 }
-void loop()
-{
-  int i;
-  if (mySerial.available() > 0)
-  {
-    i=mySerial.read();
-    Serial.println(i, BIN);
-    if(i==1)
-    {
-      digitalWrite(ledpin,1);
-    }
-    if(i==0)
-    {
-      digitalWrite(ledpin,0);
-    }
+void loop() {
+  int bytes = mySerial.available();
+  if(bytes > 0) {
+    String str = mySerial.readString();
+    Serial.println(str);
   }
 }
