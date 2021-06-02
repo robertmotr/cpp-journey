@@ -30,14 +30,15 @@ void setup()
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0, 0);
   display.println("Hello world");
-  display.setCursor(0, 30);
-  display.println("Line 2 of hello world");
   display.display();
 }
 void loop() {
   int bytes = mySerial.available();
   if(bytes > 0) {
     String str = mySerial.readString();
-    Serial.println(str);
+    display.clearDisplay();
+    display.println(str);
+    display.display();
+    display.setCursor(0, 0);
   }
 }
