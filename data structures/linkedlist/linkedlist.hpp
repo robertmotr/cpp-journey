@@ -31,6 +31,7 @@ class LinkedList {
 
         ~LinkedList();
 
+        // Appends value T to end of linked list.
         void append(T value);
 
         // Remove and return last node in linked list. Raises error if linkedlist is empty.
@@ -39,11 +40,17 @@ class LinkedList {
         // Pop first occurrence of value off linkedlist.
         T pop(T value);
 
-        void insert(int position);
+        // Inserts node with item T before position specified.
+        void insert(int position, T item);
 
+        // Searches for value T in linked list. Returns index of node if found, -1 if not found.
         int search(T value);
 
+        // Searches for value T in linked list. Returns true if found, false otherwise.
         bool isPresent(T value);
+
+        // Prints all items in linked list.
+        void printAll();
 
     private:
 
